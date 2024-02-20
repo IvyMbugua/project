@@ -1,0 +1,12 @@
+{% extends 'lms_app/base.html' %}
+
+{% block content %}
+<h1>Assignment List</h1>
+<ul class="list-group">
+    {% for assignment in assignments %}
+        <li class="list-group-item">
+            <a href="{% url 'assignment_detail' assignment.id %}">{{ assignment.title }}</a>
+        </li>
+    {% endfor %}
+</ul>
+{% endblock %}
