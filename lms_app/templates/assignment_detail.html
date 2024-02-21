@@ -1,19 +1,16 @@
-{% extends 'lms_app/base.html' %}
+{% extends "base.html" %}
 
 {% block content %}
-<h1>{{ assignment.title }}</h1>
-<p>Questions:</p>
-<ul class="list-group">
+<h1 class="mb-4">{{ assignment.title }}</h1>
+<div class="list-group">
     {% for question in assignment.questions.all %}
-        <li class="list-group-item">
-            {{ question.question_text }}
-            <br>
-            <strong>Answer:</strong> {{ question.answer }}
+        <a class="list-group-item">
+            <h5 class="mb-2">{{ question.question_text }}</h5>
+            <p class="mb-1"><strong>Answer:</strong> {{ question.answer }}</p>
             {% if question.choices %}
-                <br>
-                <strong>Choices:</strong> {{ question.choices }}
+                <p class="mb-0"><strong>Choices:</strong> {{ question.choices }}</p>
             {% endif %}
-        </li>
+        </a>
     {% endfor %}
-</ul>
+</div>
 {% endblock %}
