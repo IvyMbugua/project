@@ -13,7 +13,10 @@ class Assignment(models.Model):
     questions = models.ManyToManyField('Question')
 
 class Question(models.Model):
+    assignment = models.ForeignKey(Assignment, related_name='questions', on_delete=models.CASCADE)
     question_text = models.TextField()
     answer = models.CharField(max_length=255)
-    choices = models.CharField(max_length=255, blank=True)
+    choices = models.CharField(max_length=255, blank=True, null=True)
 
+    def __str__(self):
+        return self.question_text

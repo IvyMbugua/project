@@ -4,13 +4,43 @@
 <h1 class="mb-4">{{ assignment.title }}</h1>
 <div class="list-group">
     {% for question in assignment.questions.all %}
-        <a class="list-group-item">
+        <div class="list-group-item">
             <h5 class="mb-2">{{ question.question_text }}</h5>
             <p class="mb-1"><strong>Answer:</strong> {{ question.answer }}</p>
             {% if question.choices %}
                 <p class="mb-0"><strong>Choices:</strong> {{ question.choices }}</p>
             {% endif %}
-        </a>
+            <a href="{% url 'update_question' assignment.id question.id %}" class="btn btn-warning btn-sm">Update</a>
+            <a href="{% url 'delete_question' assignment.id question.id %}" class="btn btn-danger btn-sm">Delete</a>
+        </div>
     {% endfor %}
 </div>
+
+<div class="modal fade" id="deleteQuestionModal" tabindex="-1" role="dialog" aria-labelledby="deleteQuestionModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteQuestionModalLabel">Confirm Deletion</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete this question?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <a href="{% url 'delete_question' assignment.id question.id %}" class="btn btn-danger">Delete</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<a href="#" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteQuestionModal">Delete</a>
+
+<form method="post" action="{% url 'add_question' assignment.id %}">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Add Question</button>
+</form>
 {% endblock %}
